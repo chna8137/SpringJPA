@@ -168,7 +168,7 @@ public class MelonController {
     /**
      * 가수 별병 추가하기
      * 예 : 방탄소년단을 BTS 별명 추가하기
-     * */
+     */
     @PostMapping(value = "updateAddField")
     public ResponseEntity updateAddField(@RequestBody MelonDTO pDTO) throws Exception {
 
@@ -187,7 +187,7 @@ public class MelonController {
 
     /**
      * 가수 멤버 이름을(List 구조 필드) 추가하기
-     * */
+     */
     @PostMapping(value = "updateAddListField")
     public ResponseEntity updateAddListField(@RequestBody MelonDTO pDTO) throws Exception {
 
@@ -195,10 +195,47 @@ public class MelonController {
 
         log.info("pDTO : " + pDTO);
 
-        List<MelonDTO> rList = Optional.ofNullable(melonService.updateAddField(pDTO))
+        List<MelonDTO> rList = Optional.ofNullable(melonService.updateAddListField(pDTO))
                 .orElseGet(ArrayList::new);
 
         log.info(this.getClass().getName() + ".updateAddListField End!!");
+
+        return ResponseEntity.ok(
+                CommonResponse.of(HttpStatus.OK, HttpStatus.OK.series().name(), rList));
+    }
+
+    /**
+     * 가수 이름이 방탄소년단을 BTS로 변경 및 필드 추가하기
+     */
+    @PostMapping(value = "updateFieldAndAddField")
+    public ResponseEntity updateFieldAndAddField(@RequestBody MelonDTO pDTO) throws Exception {
+
+        log.info(this.getClass().getName() + ".updateFieldAndAddField Start!!");
+
+        log.info("pDTO : " + pDTO);
+
+        List<MelonDTO> rList = Optional.ofNullable(melonService.updateFieldAndAddField(pDTO))
+                .orElseGet(ArrayList::new);
+
+        log.info(this.getClass().getName() + ".updateFieldAndAddField End!!");
+
+        return ResponseEntity.ok(
+                CommonResponse.of(HttpStatus.OK, HttpStatus.OK.series().name(), rList));
+    }
+
+    /**
+     * 가수 이름이 방탄소년단인 노래 삭제하기
+     */
+    @PostMapping(value = "deleteDocument")
+    public ResponseEntity deleteDocument(@RequestBody MelonDTO pDTO) throws Exception {
+
+        log.info(this.getClass().getName() + ".deleteDocument Start!!");
+
+        log.info("pDTO : " + pDTO); // JSON 구조로 받은 값이 잘 받았느지 확인하기 위해 로그 찍기
+
+        List<MelonDTO> rList = Optional.ofNullable(melonService.deleteDocument(pDTO)).orElseGet(ArrayList::new);
+
+        log.info(this.getClass().getName() + ".deleteDocument End!!");
 
         return ResponseEntity.ok(
                 CommonResponse.of(HttpStatus.OK, HttpStatus.OK.series().name(), rList));
